@@ -1,8 +1,9 @@
 *** Settings ***
 Library    RequestsLibrary
+Library    OperatingSystem
 
 *** Variables ***
-${BASE_URL}    http://192.168.1.140:5000
+${BASE_URL}    http://localhost:5000
 
 *** Test Cases ***
 Test Plus Operation With 5 and 6
@@ -26,5 +27,5 @@ Call Plus Endpoint
 
 Get Response Body
     [Arguments]    ${response}
-    ${response_body}=    Evaluate    ${response.text}    return ${response_body}
+    ${response_body}=    Evaluate    ${response.json()['plus']}    return ${response_body}
     RETURN    ${response_body}
