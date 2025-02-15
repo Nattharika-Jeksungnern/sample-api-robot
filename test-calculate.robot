@@ -27,5 +27,5 @@ Call Plus Endpoint
 
 Get Response Body
     [Arguments]    ${response}
-    ${response_body}=    Evaluate    ${response.text}    return ${response_body}
+    ${response_body}=    Set Variable    ${response.text}
     RETURN    ${response_body}
