@@ -1,17 +1,25 @@
 *** Settings ***
 Library    RequestsLibrary
 
+*** Variables ***
+${BASE_URL}    http://localhost:5000
+
 *** Test Cases ***
-Test Plus Operation With Integers
-    [Arguments]    ${a}    ${b}    ${expected_result}
-    ${url}=    Catenate    http://localhost:5000/plus/${a}/${b}
-    ${response}=    GET    ${url}
+Test Plus Operation With 5 and 6
+    ${response}=    Call Plus Endpoint    5    6
     Should Be Equal As Numbers    ${response.status_code}    200
     ${response_body}=    Evaluate    json.loads(response.text)    json
-    Should Be Equal As Numbers    ${response_body}    ${expected_result}
-
-Test Plus Operation With 5 and 6
-    Test Plus Operation With Integers    5    6    11
+    Should Be Equal As Numbers    ${response_body['plus']}    11
 
 Test Plus Operation With 8 and 3
-    Test Plus Operation With Integers    8    3    11
+    ${response}=    Call Plus Endpoint    8    3
+    Should Be Equal As Numbers    ${response.status_code}    200
+    ${response_body}=    Evaluate    json.loads(response.text)    json
+    Should Be Equal As Numbers    ${response_body['plus']}    11
+
+*** Keywords ***
+Call Plus Endpoint
+    [Arguments]    ${a}    ${b}
+    ${url}=    Catenate    ${BASE_URL}/plus/${a}/${b}
+    ${response}=    GET    ${url}
+    [Return]    ${response}
