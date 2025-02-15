@@ -22,9 +22,9 @@ Call Plus Endpoint
     [Arguments]    ${a}    ${b}
     ${url}=    Catenate    ${BASE_URL}/plus/${a}/${b}
     ${response}=    GET    ${url}
-    [RETURN]    ${response}
+    RETURN    ${response}
 
 Get Response Body
     [Arguments]    ${response}
-    ${body}=    Evaluate    ${response.text}    return ${body}
-    [RETURN]    ${body}
+    ${response_body}=    Evaluate    ${response.text}    return ${response_body}
+    RETURN    ${response_body}
