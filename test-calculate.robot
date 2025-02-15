@@ -1,7 +1,6 @@
 *** Settings ***
 Library           RequestsLibrary
 
-
 *** Keywords ***
 
 Get Calculation JSON
@@ -12,12 +11,14 @@ Get Calculation JSON
     Should Be Equal    ${resp.status_code}    ${200}
 
     # Get the response content as a JSON object
-    'return'    ${resp.json()}
+    ${json_resp}=    Set Variable    ${resp.json()}
 
+    # Return the JSON response
+    Return    ${json_resp}
 
 *** Test Cases ***
-Test Calculate Numbers 4 and 2 (ฺBefore Using Keywords)
 
+Test Calculate Numbers 4 and 2 (ฺBefore Using Keywords)
     ${resp}=     GET    http://192.168.1.140:5000/plus/4/2
 
     # Verify the status code is 200 (OK)
@@ -29,10 +30,7 @@ Test Calculate Numbers 4 and 2 (ฺBefore Using Keywords)
     # Verify the response of plus operation
     Should Be Equal    ${json_resp['plus']}    ${6}
 
-
-
 Test Calculate Numbers 8.4 and 4 (ฺBefore Using Keywords)
-
     ${resp}=     GET    http://192.168.1.140:5000/plus/8.4/4
 
     # Verify the status code is 200 (OK)
@@ -44,19 +42,13 @@ Test Calculate Numbers 8.4 and 4 (ฺBefore Using Keywords)
     # Verify the response of plus operation
     Should Be Equal    ${json_resp['plus']}    ${12.4}
 
-
-
 Test Calculate Numbers 4 and 2
-
     ${json_resp}=    Get Calculation JSON    ${4}    ${2}
 
     # Verify the response of plus operation
     Should Be Equal    ${json_resp['plus']}    ${6}
 
-
-
 Test Calculate Numbers 8.4 and 4
-
     ${json_resp}=    Get Calculation JSON    ${8.4}    ${4}
 
     # Verify the response of plus operation
